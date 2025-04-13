@@ -108,8 +108,30 @@ void levelordertraversal(Node* root){
 
 
 
+void leftview(Node* root,int level,vector<int>&ans){
+    if(root==NULL) return;
+    
+    if(ans.size()==level){
+        ans.push_back(root->data);
+        
+    }
+    leftview(root->left,level+1,ans);
+    leftview(root->right,level+1,ans);
+    
+}
 
-
+void rightview(Node* root,int level,vector<int>&ans2){
+    if(root==NULL) return;
+    
+    if(ans2.size()==level){
+        ans2.push_back(root->data);
+        
+    }
+     rightview(root->right,level+1,ans2);
+    rightview(root->left,level+1,ans2);
+   
+    
+}
 int main() {
     Node *root=buildTree();
    //cout<<root->data<<endl;
@@ -128,5 +150,21 @@ int main() {
   cout<<"printing level order traversal"<<endl;
    levelordertraversal(root);
   cout<<endl;
+  
+  vector<int>ans;
+  leftview(root,0,ans);
+  cout<<"printing the left view of BINARY TREE"<<endl;
+  for(int i=0;i<ans.size();i++){
+      cout<<ans[i]<<" ";
+  }
+  
+  cout<<endl;
+  vector<int>ans2;
+  rightview(root,0,ans2);
+  cout<<"printing the right view of BINARY TREE"<<endl;
+  for(int i=0;i<ans2.size();i++){
+      cout<<ans2[i]<<" ";
+  }
+  
     return 0;
 }
