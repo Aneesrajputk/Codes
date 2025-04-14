@@ -1,4 +1,6 @@
 // Online C++ compiler to run C++ program online
+
+//10 20 40 -1 -1 50 70 110 -1 -1 111 -1 -1 80 -1 -1 30 -1 60 -1 90 112 -1 -1 113 -1 -1
 #include <iostream>
 #include<bits/stdc++.h>
 using namespace std;
@@ -132,6 +134,65 @@ void rightview(Node* root,int level,vector<int>&ans2){
    
     
 }
+
+void printLeftview(Node* root){
+    map<int,int> hdToNodemap;
+    queue<pair<Node*,int>>q;
+    q.push(make_pair(root,0));
+    
+    while(!q.empty()){
+        pair<Node*,int> temp=q.front();
+        q.pop();
+        
+        Node* front=temp.first;
+        int hd= temp.second;
+        
+        //agar meri hd p koi value store nhi h toh store kar do 
+        if(hdToNodemap.find(hd)==hdToNodemap.end()){
+            hdToNodemap[hd]=front->data;
+        }
+        
+        // child ko smabalo
+        if(front->left){
+            q.push(make_pair(front->left,hd-1));
+        }
+        if(front->right){
+            q.push(make_pair(front->right,hd+1));
+        }
+    }
+    cout<<"printing top view of TREE is : "<<endl;
+    for(auto it:hdToNodemap){
+        cout<<it.second<<" ";
+    }
+}
+
+void bottomview(Node* root){
+    map<int,int>hdToNodemp;
+    queue<pair<Node*,int>>q;
+    q.push(make_pair(root,0));
+    
+    while(!q.empty()){
+        pair<Node*,int>temp=q.front();
+        q.pop();
+        Node* front=temp.first;
+        int hd=temp.second;
+        
+        hdToNodemp[hd]=front->data;
+        
+        if(front->left){
+            q.push(make_pair(front->left,hd-1));
+        }
+        if(front->right){
+            q.push(make_pair(front->right,hd+1));
+        }
+        
+        
+    }
+    cout<<"Printing bottom view of TREE is : "<<endl;
+    for(auto it:hdToNodemp){
+        cout<<it.second<<" ";
+    }
+}
 int main() {
     Node *root=buildTree();
    //cout<<root->data<<endl;
@@ -165,6 +226,12 @@ int main() {
   for(int i=0;i<ans2.size();i++){
       cout<<ans2[i]<<" ";
   }
+  
+  cout<<endl;
+  printLeftview(root);
+  
+   cout<<endl;
+  bottomview(root);
   
     return 0;
 }
