@@ -158,6 +158,50 @@ bool searchinBST(Node* root,int target){
     
     return leftkaans||rightkaans;
 }
+
+
+Node* deletefromBST(Node* root,int target){
+    // 
+    if(root==NULL) return NULL;
+    
+    // check agar mera root hi target k equal h 
+    if(root->data==target){
+        // check 4 cases 
+        if(root->left==NULL && root->right==NULL){
+            delete(root);
+            return NULL;
+        }
+        
+        else if(root->left!=NULL && root->right==NULL){
+            Node* leftsubtree=root->left;
+            delete root;
+            return leftsubtree;
+        }
+         else  if(root->left==NULL && root->right!=NULL){
+            Node* rightsubtree=root->right;
+            delete root;
+            return rightsubtree;
+        }
+        
+          else{
+            Node* maxi=maxvalue(root->left);
+            //replace max with root
+            root->data=maxi->data;
+            root->left= deletefromBST(root->left,maxi->data);
+            return root;
+        }
+    }
+    // agar mera root target k equal nhi h 
+    // left m check kar 
+    else if(root->data>target){
+        root->left=deletefromBST(root->left,target);
+    }
+    // right m check kar 
+    else{
+        root->right=deletefromBST(root->right,target);
+    }
+    return root;
+}
 int main() {
     Node* root=NULL;
     
@@ -190,24 +234,36 @@ int main() {
         cout<<"maximum value is : "<<maxNode->data<<endl;
     }
     
-    int t;
-    cout<<"enter the target"<<endl;
-    cin>>t;
+    // int t;
+    // cout<<"enter the target"<<endl;
+    // cin>>t;
     
-    while(t!=-1){
-        bool ans=searchinBST(root,t);
+    // while(t!=-1){
+    //     bool ans=searchinBST(root,t);
         
-        if(ans==true){
-            cout<<"Target found"<<endl;
-        }
-        else{
-            cout<<"Target Not Found"<<endl;
-        }
-         cout<<"enter the target"<<endl;
-    cin>>t;
+    //     if(ans==true){
+    //         cout<<"Target found"<<endl;
+    //     }
+    //     else{
+    //         cout<<"Target Not Found"<<endl;
+    //     }
+    //      cout<<"enter the target"<<endl;
+    // cin>>t;
+        
+    // }
+    
+    int target;
+    cout<<"enter target node for delete"<<endl;
+    cin>>target;
+    
+    while(target!=-1){
+        root=deletefromBST(root,target);
+        cout<<endl<<"printing tree"<<endl;
+        levelordertraversal(root);
+        cout<<"enter target node for delete"<<endl;
+    cin>>target;
         
     }
-    
     
     
     return 0;
