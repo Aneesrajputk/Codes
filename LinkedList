@@ -1,0 +1,190 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node{
+  public:
+  int data;
+  Node* next;
+  
+  Node(){
+    cout<<"constructor is running "<<endl;
+    this->next=NULL;
+  }
+  
+  Node(int data){
+      //cout<<"para meter constructor is running "<<endl;
+    this->data=data;
+    this->next=NULL;
+    }
+};
+
+void printLL(Node* head){
+    Node* temp=head;
+    while(temp!=NULL){
+        cout<<temp->data<<"->";
+        temp=temp->next;
+    }
+    cout<<endl;
+}
+
+
+int getlength(Node* head){
+    Node* temp=head;
+    int len=0;
+    while(temp!=NULL){
+        len++;
+        temp=temp->next;
+    }
+    return len;
+
+}
+
+void insertatahead(Node* &head,Node* &tail,int data){
+    if(head==NULL){
+        Node* newNode= new Node(data);
+        head=newNode;
+        tail=newNode;
+    }
+    else{
+        Node* newNode= new Node(data);
+        newNode->next=head;
+        
+        head=newNode;
+    }
+}
+
+void insertattail(Node* &head,Node* &tail,int data){
+    if(head==NULL){
+        Node* newNode= new Node(data);
+        head=newNode;
+        tail=newNode;
+    }
+    else{
+        Node* newNode= new Node(data);
+        tail->next=newNode;
+        
+        tail=newNode;
+    }
+}
+
+
+void  insertAtPosition(Node* &head, Node* &tail,int data,int pos){
+    // case 1 
+    if(pos<1){
+        cout<<"Cannot insert please insert a valid position "<<endl;
+        return ;
+    }
+   if(pos==1){
+        insertatahead(head,tail,data);
+        return ;
+    }
+    int len=getlength(head);
+    if(pos==len+1){
+        insertattail(head,tail,data);
+        return ;
+    }
+    else{
+        // kisi particular position p mujhe node insert karni h toh 
+        Node* newNode= new Node(data);
+        // find position of node where you can insert the node
+        Node* curr= head;
+        Node* prev=NULL;
+        while(pos!=1){
+            pos--;
+             prev=curr;
+            curr=curr->next;
+
+        }
+        
+        
+        prev->next=newNode;
+        newNode->next=curr;
+    }
+}
+
+void deletioninLL(Node* &head,Node* &tail,int pos){
+    if(head==NULL) {
+        cout<<"cannnot delet ebcoz ll is empty"<<endl;
+        return;
+    }
+    if(head==tail){
+        Node* temp=head;
+        delete temp;
+        head=NULL;
+        tail=NULL;
+        return ;
+    }
+    // case 1 delete in the first 
+    if(pos==1){
+        // bol rha h mera jo head h usi ko delete kar do 
+        Node* temp=head;
+       head=head->next;
+       temp->next=NULL;
+       delete temp;
+       return;
+    }
+    // case 2 delete from the last
+    // tail node ko delte karna h 
+    int len=getlength(head);
+   if(pos==len){
+       Node* prev=head;
+       
+        while(prev->next!=tail){
+            prev=prev->next;
+        }
+        prev->next=NULL;
+        delete tail;
+        // update tail
+        tail=prev;
+        return;
+        }
+    // delete node from the middle of linked list 
+    
+    else{
+        Node* curr=head;
+        Node* prev=NULL;
+        while(pos!=1){
+            pos--;
+            
+            prev=curr;
+            curr=curr->next;
+        }
+        prev->next=curr->next;
+        curr->next=NULL;
+        delete curr;
+        
+    }
+}
+int main(){
+//   Node* first= new Node(10);
+//   Node* second= new Node(20);
+//   Node* third= new Node(30);
+//   Node* fourth= new Node(40);
+//   Node* fifth= new Node(50);
+//   Node* tail=fifth;
+//   first->next=second;
+//   second->next=third;
+//   third->next=fourth;
+//   fourth->next=fifth;
+
+  Node* head=NULL;
+  Node* tail=NULL;
+  
+  insertattail(head,tail,10);
+  insertattail(head,tail,20);
+  insertattail(head,tail,30);
+  insertattail(head,tail,40);
+  insertattail(head,tail,50);
+  
+  
+//   insertatahead(head,tail,5);
+//   insertattail(head,tail,55);
+     //   printLL(head);
+ // cout<<"length of LL is "<<getlength(head)<<endl;
+//  cout<<"printing LL after inserting "<<endl;
+//   insertAtPosition(head,tail,5,7); 
+  printLL(head);
+  cout<<endl;
+  deletioninLL(head,tail,1);
+  printLL(head);
+}
